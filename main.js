@@ -51,6 +51,7 @@ function deleteCheck(e) {
         const todo = item.parentNode; /*parentElement도 ok */
         //Animation
         todo.classList.add('fall');
+        removeLocalTodos(todo);
         todo.addEventListener('transitionend', function() {
             todo.remove();
         });
@@ -140,4 +141,27 @@ function getTodos() {
     });
 }
 
-//localStorage.clear();
+function removeLocalTodos(todo){
+    //CHECK---Hey Do I already have things in there?
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    //console.log(todo.children[0].innerText);
+    //console.log(todos.indexOf("potato"));
+    const todoIndex = todo.children[0].innerText;
+    todos.splice(todos.indexOf(todoIndex), 1);
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+/*
+const todo = ['apple', 'john', 'donut', 'baby'];
+const johnIndex = todos.indexOf('john');
+todos.splice(johnIndex, 1);
+console.log(todos); //john is no longer there
+todos.indexOf('john');
+
+localStorage.clear();
+*/
